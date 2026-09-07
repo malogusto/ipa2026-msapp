@@ -1,66 +1,40 @@
-from flask import Flask
-
-from flask import request
-
-from flask import render_template
-
-from flask import redirect
-
-from flask import url_for
-
-
+import os
+from flask import Flask, request, render_template, redirect, url_for
+from dotenv import load_dotenv
 from pymongo import MongoClient
 
-client = MongoClient("mongodb://mongo:27017/")
+load_dotenv()
 
-mydb = client["mydatabase"]
+mongo_uri = os.environ.get("MONGO_URI")
+db_name = os.environ.get("DB_NAME")
 
-mycol = mydb["mycollection"]
+client = MongoClient(mongo_uri)
+db = client[db_name]
+routers = db["routers"]
 
 app = Flask(__name__)
 
 @app.route("/")
-
 def main():
-    data = mycol.find()
+    data = routers.find()
     return render_template("index.html", data=data)
 
-
-
 @app.route("/add", methods=["POST"])
-
 def add_comment():
-
-    routerId= request.form.get("routerId")
-
+    routerId = request.form.get("routerId")
     username = request.form.get("username")
-
     password = request.form.get("password")
-
-    mycol.insert_one({"routerId" :  routerId , "username" : username , "password" : password})
-
+    routers.insert_one({"routerId": routerId, "username": username, "password": password})
     return redirect(url_for("main"))
-
-
 
 @app.route("/delete", methods=["POST"])
-
 def delete_comment():
-
     try:
-
         idx = request.form.get("idx")
-
-        mycol.delete_one( {"routerId" : idx})
-
+        routers.delete_one({"routerId": idx})
     except Exception:
-
         pass
-
     return redirect(url_for("main"))
 
-
-
 if __name__ == "__main__":
-
     app.run(host="0.0.0.0", port=8080)

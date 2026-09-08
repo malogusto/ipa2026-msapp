@@ -8,4 +8,3 @@ MarkupSafe==3.0.3
 pika==1.4.4
 pymongo==4.17.0
 Werkzeug==3.1.8
-python-dotenv==1.0.1

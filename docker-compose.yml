@@ -53,7 +53,24 @@ services:
       - .env
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBIT_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASSWORD: ${RABBIT_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASSWORD: ${RABBIT_DEFAULT_PASSWORD}
+
+  worker:
+    build: ./worker
+    depends_on:
+      - rabbitMQ
+      - mongo
+    networks:
+      - app-net
+    env_file:
+      - .env
+    environment:
+      MONGO_URI: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/"
+      DB_NAME: "ipa2026_db"
+      RABBITMQ_HOST: "rabbitMQ"
+      RABBITMQ_DEFAULT_USER: ${RABBIT_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASSWORD: ${RABBIT_DEFAULT_PASSWORD}
+      PYTHONUNBUFFERED: "1"
 volumes:
   mongo-data:
 

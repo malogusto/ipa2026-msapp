@@ -1,0 +1,18 @@
+from bson import json_util
+from router_client import get_interfaces
+import json
+
+
+def callback(ch, method, props, body):
+    job = json.loads(body.decode())
+    print(job)
+    router_ip = job["routerId"]
+    router_username = job["username"]
+    router_password = job["password"]
+    print(f"Received job for router {router_ip}")
+
+    try:
+        output = get_interfaces(router_ip, router_username, router_password)
+        print(f"Result: {output}")
+    except Exception as e:
+        print(f" Error: {e}")

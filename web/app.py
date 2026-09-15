@@ -52,5 +52,6 @@ def router_detail(ip):
     )
     return render_template("router_detail.html", ip=ip, record=record)
 
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)

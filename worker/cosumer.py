@@ -4,11 +4,14 @@ import pika
 from callback import callback
 
 user = os.environ.get("RABBITMQ_DEFAULT_USER")
-pwd  = os.environ.get("RABBITMQ_DEFAULT_PASSWORD")
+pwd = os.environ.get("RABBITMQ_DEFAULT_PASSWORD")
 
 
 if not user or not pwd:
-    raise EnvironmentError("RABBITMQ_DEFAULT_USER and RABBITMQ_DEFAULT_PASSWORD must be set!")
+    raise EnvironmentError(
+        "RABBITMQ_DEFAULT_USER and RABBITMQ_DEFAULT_PASSWORD must be set!"
+    )
+
 
 def consume(host):
     for attempt in range(1000):
@@ -29,8 +32,11 @@ def consume(host):
     ch = conn.channel()
     ch.queue_declare(queue="router_jobs")
     ch.basic_qos(prefetch_count=1)
-    ch.basic_consume(queue="router_jobs", on_message_callback=callback, auto_ack=True)
+    ch.basic_consume(
+        queue="router_jobs", on_message_callback=callback, auto_ack=True
+    )
     ch.start_consuming()
+
 
 if __name__ == "__main__":
     host = os.environ.get("RABBITMQ_HOST", "localhost")

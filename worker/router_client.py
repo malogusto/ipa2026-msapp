@@ -2,6 +2,7 @@ import os
 import json
 import ntc_templates
 
+
 from database import save_interface_status
 from netmiko import ConnectHandler
 
@@ -28,5 +29,4 @@ def get_interfaces(ip, username, password):
 
 
 if __name__ == "__main__":
-
     get_interfaces()

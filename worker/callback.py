@@ -1,4 +1,3 @@
-from bson import json_util
 from router_client import get_interfaces
 import json
 

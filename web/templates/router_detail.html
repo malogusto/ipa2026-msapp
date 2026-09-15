@@ -1,0 +1,43 @@
+<html>
+
+<head>
+  <title>Router {{ ip }} - Interface Status</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body>
+  <a href="{{ url_for('main') }}">&larr; Back</a>
+  <h1>Interface Status: {{ ip }}</h1>
+
+  {% if record %}
+    <p>Last updated: {{ record.timestamp }}</p>
+
+    {% if record.interfaces %}
+    <table border="1" cellpadding="6" cellspacing="0">
+      <thead>
+        <tr>
+          {% for key in record.interfaces[0].keys() %}
+          <th>{{ key }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for iface in record.interfaces %}
+        <tr>
+          {% for value in iface.values() %}
+          <td>{{ value }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No interface data found in this record.</p>
+    {% endif %}
+
+  {% else %}
+    <p>No status data available yet for this router.</p>
+  {% endif %}
+</body>
+
+</html>

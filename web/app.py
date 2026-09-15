@@ -11,6 +11,7 @@ db_name = os.environ.get("DB_NAME")
 client = MongoClient(mongo_uri)
 db = client[db_name]
 routers = db["routers"]
+interface_status = db["interface_status"]
 
 app = Flask(__name__)
 
@@ -35,6 +36,14 @@ def delete_comment():
     except Exception:
         pass
     return redirect(url_for("main"))
+
+@app.route("/router/<ip>")
+def router_detail(ip):
+    record = interface_status.find_one(
+        {"router_ip": ip},
+        sort=[("timestamp", -1)]
+    )
+    return render_template("router_detail.html", ip=ip, record=record)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)

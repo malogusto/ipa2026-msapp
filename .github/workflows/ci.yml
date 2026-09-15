@@ -46,6 +46,6 @@ jobs:
           docker build -t ${{ vars.DOCKERHUB_USERNAME }}/scheduler:latest ./scheduler
           docker build -t ${{ vars.DOCKERHUB_USERNAME }}/web:latest ./web
 
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/worker:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/scheduler:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/web:latest
+          docker push ${{ vars.DOCKERHUB_USERNAME }}/worker:latest
+          docker push ${{ vars.DOCKERHUB_USERNAME }}/scheduler:latest
+          docker push ${{ vars.DOCKERHUB_USERNAME }}/web:latest

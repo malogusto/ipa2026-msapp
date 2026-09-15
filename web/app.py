@@ -3,7 +3,6 @@ from flask import Flask, request, render_template, redirect, url_for
 from dotenv import load_dotenv
 from pymongo import MongoClient
 
-
 load_dotenv()
 
 mongo_uri = os.environ.get("MONGO_URI")

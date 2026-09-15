@@ -43,7 +43,7 @@ def delete_comment():
     return redirect(url_for("main"))
 
 
-@app.route("/router/<ip>")#help
+@app.route("/router/<ip>")
 def router_detail(ip):
     record = interface_status.find_one(
         {"router_ip": ip},
